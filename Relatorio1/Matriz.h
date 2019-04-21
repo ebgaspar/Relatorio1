@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include <math.h>
 
 class Matrix
 {
@@ -66,7 +67,10 @@ public:
 	bool fillRandomMatrix( void ) ;
 	bool fillWithZeros( void ) ;
 
-	void matrixBlockMultiply( int ** , int ** , const int ) ;
+	bool multiply( const Matrix &, Matrix & ) ;
+	void matrixBlockMultiply( Matrix& , Matrix& , const int ) ;
+	void matrixBlockMultiply2( Matrix & , Matrix & , const int ) ;
 
-	void Gauss( void )
+	void Gauss( int *solution ) ;
+	void GaussJordan( int *solution ) ;
 };

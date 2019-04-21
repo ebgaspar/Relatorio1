@@ -45,46 +45,74 @@ bool Matrix::operator==( const Matrix &B )
 	return ( this->_l == B.getRowsSize( ) && this->_c == B.getColsSize( ) ) ;
 }
 
-void Matrix::operator=( const Matrix &B )
+void Matrix::operator=( const Matrix & B )
 {
 	int L = this->_l , C = this->_c ;
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
-		memcpy( this->_M [ i ] , B._M[ i ] , ( C * ( sizeof( int ) ) ) ) ;
+		memcpy( this->_M [ i ] , B._M [ i ] , ( C * ( sizeof( int ) ) ) ) ;
 	}
 
 }
 
-Matrix Matrix::operator*( const Matrix &B )
+Matrix Matrix::operator*( const Matrix & B )
 {
 	if ( this->_c != B.getRowsSize( ) )
 	{
-		return Matrix() ;
+		return Matrix( ) ;
 	}
 
 	const int l = this->_l , c = B.getColsSize( ) , lc = B.getRowsSize( ) ;
-	int i , j , k , sum ;
+	int  sum ;
 
 	Matrix *C = new Matrix( ) ;
-	C->Init( l, c ) ;
+	C->Init( l , c ) ;
 
-	for ( i = 0 ; i < l ; ++i )
+	for ( int i = 0 ; i < l ; ++i )
 	{
-		for ( j = 0 ; j < c ; ++j )
+		for ( int j = 0 ; j < c ; ++j )
 		{
-			for ( sum = 0 , k = 0; k < lc ; ++k )
+			sum = 0 ;
+			for ( int k = 0; k < lc ; ++k )
 			{
 				sum += ( this->_M [ i ][ k ] * B._M [ k ][ j ] ) ;
 			}
 
 			C->_M [ i ][ j ] = sum ;
-			sum = 0 ;
 		}
 	}
 
 	return *C ;
 }
+
+bool Matrix::multiply( const Matrix & B , Matrix & C )
+{
+	if ( this->_c != B.getRowsSize( ) )
+	{
+		return false ;
+	}
+
+	const int l = this->_l , c = B.getColsSize( ) , lc = B.getRowsSize( ) ;
+	int sum ;
+
+	for ( int i = 0 ; i < l ; ++i )
+	{
+		for ( int j = 0 ; j < c ; ++j )
+		{
+			sum = 0 ;
+			for ( int k = 0; k < lc ; ++k )
+			{
+				sum += ( this->_M [ i ][ k ] * B._M [ k ][ j ] ) ;
+			}
+
+			C._M [ i ][ j ] = sum ;
+		}
+	}
+
+	return true ;
+}
+
 
 bool Matrix::fillRandomMatrix( void )
 {
@@ -123,10 +151,12 @@ bool Matrix::fillWithZeros( void )
 	return true ;
 }
 
-void Matrix::matrixBlockMultiply( int **B, int **C , const int n )
+void Matrix::matrixBlockMultiply( Matrix & _B , Matrix & _C , const int n )
 {
-	int blockSize = 2 ;// block;
+	int blockSize = n / 2 ;// block;
 	int **A = this->_M ;
+	int **B = _B.data( ) ;
+	int **C = _C.data( ) ;
 
 	for ( int bi = 0 ; bi < n ; bi += blockSize )
 	{
@@ -151,46 +181,110 @@ void Matrix::matrixBlockMultiply( int **B, int **C , const int n )
 
 }
 
-void Matrix::Gauss( void )
+void Matrix::matrixBlockMultiply2( Matrix & _B , Matrix & _C , const int n )
 {
-	int i , j , k ;
-	int n = this->_l ;
+	int N = n ;
+	int blockSize = n / 2 ;
 	int **A = this->_M ;
-	float  c , x [ 10 ] , sum = 0.0 ;
+	int **B = _B.data( ) ;
+	int **C = _C.data( ) ;
 
-	/* loop for the generation of upper triangular matrix*/
-	for ( j = 1 ; j <= n ; j++ ) 
+	for ( int bi = 0; bi < N; bi += blockSize )
 	{
-		for ( i = 1 ; i <= n ; i++ )
+		for ( int bj = 0; bj < N; bj += blockSize )
 		{
-			if ( i > j )
+			for ( int i = 0; i < N; i++ )
 			{
-				c = A [ i ][ j ] / A [ j ][ j ] ;
-
-				for ( k = 1 ; k <= n + 1 ; k++ )
+				for ( int j = bi; j < ( ( bi + blockSize ) > N ? N : ( bi + blockSize ) ); j++ )
 				{
-					A [ i ][ k ] = A [ i ][ k ] - c * A [ j ][ k ] ;
+					int sum = 0;
+					for ( int k = bj; k < ( ( bj + blockSize ) > N ? N : ( bj + blockSize ) ); k++ )
+					{
+						sum += A [ i ][ k ] * B [ k ][ j ];
+					}
+					C [ i ][ j ] += sum;
 				}
 			}
 		}
 	}
-	x [ n ] = A [ n ][ n + 1 ] / A [ n ][ n ] ;
 
-	/* this loop is for backward substitution*/
-	for ( i = n - 1; i >= 1; i-- )
+}
+
+//void gaussEliminationLS( int L , int C , int **M , int *solution )
+void Matrix::Gauss( int *solution )
+{
+
+	int **M = this->_M ;
+	int L = this->_l ;
+	int C = this->_c ;
+
+	int i , j , k;
+
+	for ( i = 0; i < L - 1; ++i )
 	{
-		sum = 0 ;
-
-		for ( j = i + 1 ; j <= n ; j++ )
+		//Partial Pivoting
+		for ( k = i + 1; k < L; ++k )
 		{
-			sum = sum + A [ i ][ j ] * x [ j ] ;
+			//If diagonal element(absolute value) is smaller than any of the terms below it
+			if ( fabs( M [ i ][ i ] ) < fabs( M [ k ][ i ] ) )
+			{
+				//Swap the rows
+				for ( j = 0; j < C; ++j )
+				{
+					int aux;
+					aux = M [ i ][ j ];
+					M [ i ][ j ] = M [ k ][ j ];
+					M [ k ][ j ] = aux;
+				}
+			}
 		}
 
-		x [ i ] = ( A [ i ][ n + 1 ] - sum ) / A [ i ][ i ] ;
+		//Begin Gauss Elimination
+		for ( k = i + 1; k < L; k++ )
+		{
+			int  term = M [ k ][ i ] / M [ i ][ i ];
+			for ( j = 0; j < C; j++ )
+			{
+				M [ k ][ j ] = M [ k ][ j ] - term * M [ i ][ j ];
+			}
+		}
+
 	}
-	printf( "\nThe solution is: \n" );
-	for ( i = 1; i <= n; i++ )
+	//Begin Back-substitution
+	for ( i = L - 1; i >= 0; --i )
 	{
-		printf( "\nx%d=%f\t" , i , x [ i ] ); /* x1, x2, x3 are the required solutions*/
+		solution [ i ] = M [ i ][ C - 1 ];
+		for ( j = i + 1; j < C - 1; j++ )
+		{
+			solution [ i ] = solution [ i ] - M [ i ][ j ] * solution [ j ];
+		}
+		solution [ i ] = solution [ i ] / M [ i ][ i ];
+	}
+
+}
+
+void Matrix::GaussJordan( int *solution )
+{
+	int **A = this->_M ;
+	int N = this->_l ;
+
+	for ( int j = 0 ; j < N ; ++j )
+	{
+		for ( int i = 0 ; i < N ; ++i )
+		{
+			if ( i != j )
+			{
+				int c = A [ i ][ j ] / A [ j ][ j ] ;
+				for ( int k = 0 ; k <= N ; ++k )
+				{
+					A [ i ][ k ] -= c * A [ j ][ k ] ;
+				}
+			}
+		}
+	}
+
+	for ( int i = 0 ; i < N ; ++i )
+	{
+		solution [ i ] = A [ i ][ N ] / A [ i ][ i ] ;
 	}
 }

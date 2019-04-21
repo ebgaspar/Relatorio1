@@ -102,6 +102,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,11 +151,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exercicio01.h" />
+    <ClInclude Include="Exercicio02.h" />
     <ClInclude Include="Matriz.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exercicio01.cpp" />
+    <ClCompile Include="Exercicio02.cpp" />
     <ClCompile Include="Matriz.cpp" />
     <ClCompile Include="Relatorio1.cpp" />
     <ClCompile Include="Source.cpp" />
