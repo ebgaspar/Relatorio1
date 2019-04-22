@@ -62,11 +62,8 @@ void matrixBlockMultiply( const int A [ ][ 4 ] , const int B [ ][ 4 ] , int C [ 
 
 void Calcular( const int , const int , double * , double * ) ;
 
-void Exercicio02( void )
+void Exercicio02( const int nTeste , const int nTimes , int dim ) 
 {
-	int nTeste = 50 ;
-	int nTimes = 100 ;
-	int dim = 200 ;
 	double mN = 0.0 , mB = 0.0 ;
 	for ( int i = 0 ; i < nTeste ; ++i )
 	{

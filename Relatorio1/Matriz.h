@@ -71,7 +71,7 @@ public:
 	{
 		int i , j ;
 
-		int _mode ;
+		std::ios::openmode _mode ;
 
         !strcmp( modo , "w" ) ? _mode = ( std::ios::out | std::ios::trunc ) : _mode = ( std::ios::out | std::ios::app );
 
@@ -273,7 +273,7 @@ void Matrix<T>::toeplitz( void )
             {
                 if ( abs( i - j ) == k )
                 {
-                    M[ i ][ j ] = k + 1 ;
+                    M[ i ][ j ] = ( T ) k + 1 ;
                 }
             }
         }
