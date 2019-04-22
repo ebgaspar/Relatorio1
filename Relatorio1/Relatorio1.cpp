@@ -146,6 +146,12 @@ int main( )
 
 	delete [ ] solution ;
 
+	Matrix<float> F ;
+	F.Init( 5, 5 ) ;
+	F.toeplitz( ) ;
+
+	F.printMatrix( "toeplitz.txt" , "w" ) ;
+
 	return 0;
 }
 

@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <String.h>
+#include <string.h>
 
 #include <iostream>
 #include <fstream>
@@ -65,18 +65,23 @@ public:
 	//	}
 	//
 
-	inline bool isEmpty( void ) { return ( this->_M == nullptr ) ? true : false ; }
+	inline bool isEmpty( ) { return ( this->_M == nullptr ) ? true : false ; }
 
-	void printMatrix( const char *nome , const char *modo = 'a' )
+	void printMatrix( const char *nome , const char *modo = "a" )
 	{
 		int i , j ;
 
 		int _mode ;
 
-		( *modo == 'w' ) ? _mode = ( std::ios::out | std::ios::trunc ) : _mode = ( std::ios::out | std::ios::app );
+        !strcmp( modo , "w" ) ? _mode = ( std::ios::out | std::ios::trunc ) : _mode = ( std::ios::out | std::ios::app );
 
 		std::ofstream file;
 		file.open( nome , _mode );
+
+		if ( !file.is_open() )
+        {
+		    fprintf( stderr, "Nao abriu arquivo.\n" ) ;
+        }
 
 		for ( i = 0 ; i < this->_l ; ++i )
 		{
@@ -254,32 +259,25 @@ void Matrix<T>::toeplitz( void )
 {
 	int C = this->_c ;
 	int L = this->_l ;
-	int **M = this->_M ;
+	T **M = this->_M ;
 
 	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-	int a00 = rand_lim( 15 ) ;
+	int a00 = rand_lim( 0 , 15 ) ;
 
-	for ( int i = 0 ; i < L ; ++i )
-	{
-		for ( int j = 0 ; j < C ; j++ )
-		{
-			if ( i == j )
-			{
-				M [ i ][ j ] = a00 ;
-			}
-			else
-			{
-				if ( i < j )
-				{
-					M [ i ][ j ] = a00 - j - i ;
-				}
-				else
-				{
-					M [ i ][ j ] = a00 + j + i ;
-				}
-			}
-		}
-	}
+
+	for ( int k = 0 ; k < L ; ++k )
+    {
+        for ( int i = 0 ; i < L ; ++i )
+        {
+            for ( int j = 0 ; j < L ; j++ )
+            {
+                if ( abs( i - j ) == k )
+                {
+                    M[ i ][ j ] = k + 1 ;
+                }
+            }
+        }
+    }
 }
 
 template <typename T >
