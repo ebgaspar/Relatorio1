@@ -158,7 +158,6 @@
   <ItemGroup>
     <ClCompile Include="Exercicio01.cpp" />
     <ClCompile Include="Exercicio02.cpp" />
-    <ClCompile Include="Matriz.cpp" />
     <ClCompile Include="Relatorio1.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
