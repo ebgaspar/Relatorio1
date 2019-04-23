@@ -73,15 +73,23 @@ e:\relatorio1\relatorio1\exercicio01.cpp(18): warning C4244: '=': conversion fro
               T=float
           ]
   Exercicio02.cpp
-  Relatorio1.cpp
-e:\relatorio1\relatorio1\matriz.h(265): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+e:\relatorio1\relatorio1\matriz.h(25): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  e:\relatorio1\relatorio1\matriz.h(23): note: while compiling class template member function 'T Matrix<T>::rand_lim(T,T)'
           with
           [
               T=float
           ]
-  e:\relatorio1\relatorio1\matriz.h(259): note: while compiling class template member function 'void Matrix<float>::toeplitz(void)'
-  e:\relatorio1\relatorio1\relatorio1.cpp(151): note: see reference to function template instantiation 'void Matrix<float>::toeplitz(void)' being compiled
-  e:\relatorio1\relatorio1\relatorio1.cpp(119): note: see reference to class template instantiation 'Matrix<float>' being compiled
+  e:\relatorio1\relatorio1\matriz.h(320): note: see reference to function template instantiation 'T Matrix<T>::rand_lim(T,T)' being compiled
+          with
+          [
+              T=float
+          ]
+  e:\relatorio1\relatorio1\exercicio02.cpp(111): note: see reference to class template instantiation 'Matrix<float>' being compiled
+  Relatorio1.cpp
   Source.cpp
   Generating Code...
   Relatorio1.vcxproj -> E:\Relatorio1\x64\Debug\Relatorio1.exe

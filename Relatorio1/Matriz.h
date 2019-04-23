@@ -36,31 +36,6 @@ public:
 	inline int getRowsSize( void ) const { return this->_l ; }
 	inline int getColsSize( void ) const { return this->_c ; }
 	inline T **data( void ) { return this->_M ; }
-
-/*
-		void Constroi( const int l , const int c , int mat[ ][ 4 ] )
-		{
-			int size = ( sizeof( int * ) * l ) + ( sizeof( int ) * c * l ) ;
-			this->M = ( int ** ) malloc( size );
-			this->l = l ;
-			this->c = c ;
-
-			//for ( int i = 0 ; i < l ; i++ )
-			//{
-			//	memcpy( this->M [ i ] , mat [ i ] , ( c * sizeof( int ) ) ) ;
-			//}
-
-			for ( int i = 0 ; i < l ; ++i )
-			{
-				for ( int j = 0 ; j < c ; ++j )
-				{
-					M [ i ][ j ] = mat [ i ][ j ] ;
-				}
-			}
-		}
-*/
-
-
 	inline bool isEmpty( ) { return ( this->_M == nullptr ) ? true : false ; }
 
 	void printMatrix( const char * , const char * = "a" ) ;
