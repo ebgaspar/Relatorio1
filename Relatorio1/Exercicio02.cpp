@@ -3,7 +3,7 @@
 
 void Exercicio02( const int nTimes , const int dim )
 {
-	char baseName [ 50 ] = { "saida_mul_matrix.csv" } ;
+	char baseName [ 50 ] = { "Exercicio_2_saida_mul_matrix.csv" } ;
 	double mNormal = 0.0 , mBloco = 0.0 ;
 
 	std::ofstream file;

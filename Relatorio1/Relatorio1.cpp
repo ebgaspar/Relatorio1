@@ -12,9 +12,8 @@
 
 int main( )
 {
-	//    Exercicio01( ) ;
-
-	Exercicio02( 5 , 512 ) ;
+	Exercicio01( ) ;
+	//Exercicio02( 5 , 512 ) ;
 
 	return 0;
 

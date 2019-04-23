@@ -4,7 +4,7 @@
 template < typename T >
 void Bhaskara ( const T a , const T b , const T c , T *x1 , T *x2 )
 {
-	T delta = pow ( b , 2 ) - 4 * a * c ;
+	T delta = pow ( b , 2 ) - ( 4 * a * c ) ;
 
 	*x1 = ( ( -b ) + sqrt ( delta ) ) / ( 2 * a ) ;
 	*x2 = ( ( -b ) - sqrt ( delta ) ) / ( 2 * a ) ;
@@ -21,7 +21,7 @@ void Fatorado ( const T a , const T b , const T c , T * x1 , T * x2 )
 
 void Exercicio01 ( void )
 {
-	FILE *file = fopen ( "d:/Exercicio01.txt" , "w" ) ;
+	FILE *file = fopen ( "Exercicio01.txt" , "w" ) ;
 
 	int iA , iB , iC , iX1 , iX2 ;
 
