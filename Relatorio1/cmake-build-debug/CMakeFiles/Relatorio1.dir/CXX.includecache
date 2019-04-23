@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Exercicio01.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio01.h
 
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Exercicio02.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio02.h
 string.h
 -
 time.h
@@ -18,9 +18,9 @@ iostream
 chrono
 -
 Matriz.h
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Matriz.h
+/home/eduardo/Relatorio1/Relatorio1/Matriz.h
 
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Matriz.h
+/home/eduardo/Relatorio1/Relatorio1/Matriz.h
 math.h
 -
 time.h
@@ -37,14 +37,16 @@ fstream
 -
 iomanip
 -
+random
+-
 
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Relatorio1.cpp
+/home/eduardo/Relatorio1/Relatorio1/Relatorio1.cpp
 stdio.h
 -
 stdlib.h
 -
 Exercicio01.h
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Exercicio01.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio01.h
 Exercicio02.h
-/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Exercicio02.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio02.h
 

@@ -9,4 +9,4 @@
 
 //#define filename "d:/Exercicio02.txt"
 
-void Exercicio02( void ) ;
+void Exercicio02( const int nTeste , const int nTimes , int dim, int blokSize ) ;

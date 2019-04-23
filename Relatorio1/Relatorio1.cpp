@@ -12,9 +12,15 @@
 
 int main( )
 {
-	//Exercicio01( ) ;
+//    Exercicio01( ) ;
 
-	//Exercicio02( ) ;
+    // void Exercicio02( const int nTeste , const int nTimes , int dim, int blokSize ) ;
+    for ( int i = 2 ; i <= 256 ; i *= 2 )
+    {
+        Exercicio02( 20, 10, 256, i ) ;
+    }
+
+/*
 
 	int _Toeplitz [ ] =
 	{
@@ -88,33 +94,35 @@ int main( )
 
 	C.Init( 10 , 10 ) ;
 	C.fillWithZeros( ) ;
+*/
+/*
+	clock_t tStart ;
+	double timeElapsed = 0.0 ;
 
-	//clock_t tStart ;
-	//double timeElapsed = 0.0 ;
+	for ( int i = 0 ; i < 100 ; ++i )
+	{
+		tStart = clock( );
+		A.multiply( Toeplitz , C ) ;
+		timeElapsed += ( double ) ( clock( ) - tStart ) / ( CLOCKS_PER_SEC ) ;
+		C.printMatrix( toeplitz ) ;
+	}
 
-	//for ( int i = 0 ; i < 100 ; ++i )
-	//{
-	//	tStart = clock( );
-	//	A.multiply( Toeplitz , C ) ;
-	//	timeElapsed += ( double ) ( clock( ) - tStart ) / ( CLOCKS_PER_SEC ) ;
-	//	C.printMatrix( toeplitz ) ;
-	//}
+	fprintf( stdout , "Tempo: %f" , timeElapsed ) ;
 
-	//fprintf( stdout , "Tempo: %f" , timeElapsed ) ;
+	C.fillWithZeros( ) ;
+	A.multiply( TriDiag , C ) ;
+	C.printMatrix( filename ) ;
 
-	//C.fillWithZeros( ) ;
-	//A.multiply( TriDiag , C ) ;
-	//C.printMatrix( filename ) ;
+	C.fillWithZeros( ) ;
+	A.multiply( TriUpper , C ) ;
+	C.printMatrix( filename ) ;
 
-	//C.fillWithZeros( ) ;
-	//A.multiply( TriUpper , C ) ;
-	//C.printMatrix( filename ) ;
+	C.fillWithZeros( ) ;
+	A.multiply( TriLow , C ) ;
+	C.printMatrix( filename ) ;
+*/
 
-	//C.fillWithZeros( ) ;
-	//A.multiply( TriLow , C ) ;
-	//C.printMatrix( filename ) ;
-
-	float gaussTeste [ ] = { 1 , 1 , 1 , 9 , 2, -3 , 4 , 13 , 3 , 4 , 5 , 40 } ;
+/*	float gaussTeste [ ] = { 1 , 1 , 1 , 9 , 2, -3 , 4 , 13 , 3 , 4 , 5 , 40 } ;
 
 	Matrix<float> gauss;
 	gauss.Init( 3 , 4 , gaussTeste ) ;
@@ -150,7 +158,30 @@ int main( )
 	F.Init( 5, 5 ) ;
 	F.toeplitz( ) ;
 
-	F.printMatrix( "toeplitz.txt" , "w" ) ;
+	F.printMatrix( "toeplitz.txt" , "w" ) ;*/
+
+//  Teste com identidade
+/*    Matrix<float> m, n , r;
+    m.Init( 10, 10 ) ;
+    m.fillRandomMatrix( ) ;
+
+    n.Init( 10, 10 ) ;
+    n.identity( ) ;
+
+    r.Init( 10, 10 ) ;
+
+    m.multiply( n , r ) ;
+    m.printMatrix( "testeid.txt", "w" ) ;
+    n.printMatrix( "testeid.txt" ) ;
+    r.printMatrix( "testeid.txt" ) ;
+
+    r.fillWithZeros() ;
+    m.matrixBlockMultiply( n , r , 10 , 2 ) ;
+    r.printMatrix( "testeid.txt" ) ;
+
+    r.fillWithZeros() ;
+    m.matrixBlockMultiply2( n , r , 10 , 2 ) ;
+    r.printMatrix( "testeid.txt" ) ;*/
 
 	return 0;
 }

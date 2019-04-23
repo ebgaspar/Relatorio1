@@ -4,10 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Exercicio01.cpp" "/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/cmake-build-debug/CMakeFiles/Relatorio1.dir/Exercicio01.cpp.o"
-  "/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/Relatorio1.cpp" "/Users/eduardo/Documents/GitHub/Relatorio1/Relatorio1/cmake-build-debug/CMakeFiles/Relatorio1.dir/Relatorio1.cpp.o"
+  "/home/eduardo/Relatorio1/Relatorio1/Exercicio01.cpp" "/home/eduardo/Relatorio1/Relatorio1/cmake-build-debug/CMakeFiles/Relatorio1.dir/Exercicio01.cpp.o"
+  "/home/eduardo/Relatorio1/Relatorio1/Exercicio02.cpp" "/home/eduardo/Relatorio1/Relatorio1/cmake-build-debug/CMakeFiles/Relatorio1.dir/Exercicio02.cpp.o"
+  "/home/eduardo/Relatorio1/Relatorio1/Relatorio1.cpp" "/home/eduardo/Relatorio1/Relatorio1/cmake-build-debug/CMakeFiles/Relatorio1.dir/Relatorio1.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

@@ -60,26 +60,47 @@ void matrixBlockMultiply( const int A [ ][ 4 ] , const int B [ ][ 4 ] , int C [ 
 }
 */
 
-void Calcular( const int , const int , double * , double * ) ;
+void Calcular( const int , const int , double * , double * , const int bs ) ;
 
-void Exercicio02( const int nTeste , const int nTimes , int dim ) 
+void Exercicio02( const int nTeste , const int nTimes , int dim, int blockSize )
 {
+    char baseName[ 50 ] = { "saida_mul_matrix.csv" };
+    char fileName[ 20 ] ;
+    sprintf( fileName, "-%dx%d-%d", dim, dim, blockSize ) ;
+    strcat( baseName, fileName ) ;
+
 	double mN = 0.0 , mB = 0.0 ;
-	for ( int i = 0 ; i < nTeste ; ++i )
+
+    std::ofstream file;
+    file.open(  baseName, std::ios::out );
+
+    if ( !file.is_open() )
+    {
+        fprintf( stderr , "Nao abriu arquivo.\n" );
+    }
+    file << "Normal;Bloco" << std::endl ;
+
+    for ( int i = 0 ; i < nTeste ; ++i )
 	{
-		double tmp1 , tmp2 ;
-		fprintf( stdout , "Matriz tamanho : %dx%d\t Teste:\t \033[1;5;32;40m %d de %d \033[m\n" , dim , dim , i , nTeste ) ;
+        double tmp1 , tmp2 ;
+        fprintf( stdout , "Matriz tamanho : %dx%d\t Teste:\t \033[1;5;32;40m %d de %d \033[m\n" , dim , dim , i , nTeste ) ;
 
-		Calcular( dim , nTimes , &tmp1 , &tmp2 ) ;
+        Calcular( dim , nTimes , &tmp1 , &tmp2 , blockSize ) ;
 
-		mN += tmp1 ;
-		mB += tmp2 ;
-	}
+        mN += tmp1 ;
+        mB += tmp2 ;
+        file << std::fixed << std::setprecision( 4 ) << mN << " ; "  << mB << std::endl ;
+    }
+
+
+    file << std::endl ;
+
+    file.close( );
 
 	fprintf( stdout , "Multiplicacao comum :\t%.5f\nMultiplicacao Bloco :\t%.5f\n" , mN / nTeste , mB / nTeste ) ;
 }
 
-void Calcular( const int matrixSize, const int nTimes, double *mNormal, double *mBloco )
+void Calcular( const int matrixSize, const int nTimes, double *mNormal, double *mBloco , const int bs )
 {
 	//const int m = 4 , n = 4 ;
 	//int A [ m ][ n ] = { { 2 ,3 ,-1 ,2 }, { 0, 4, -3 ,5 }, { 1, 2, 1, 3 }, { 0, 4, 1, 0 } } ;
@@ -91,14 +112,14 @@ void Calcular( const int matrixSize, const int nTimes, double *mNormal, double *
 	//memset( C , 0 , m * n * ( sizeof( int ) ) ) ;
 	//matrixBlockMultiply( A , B , C , m , n ) ;
 
-	Matrix<int> A , B ;
+	Matrix<float> A , B ;
 	A.Init( matrixSize , matrixSize ) ;
 	A.fillRandomMatrix( ) ;
 
 	B.Init( matrixSize , matrixSize ) ;
 	B.fillRandomMatrix( ) ;
 
-	Matrix<int> C ;
+	Matrix<float> C ;
 	C.Init( matrixSize , matrixSize ) ;
 
 	clock_t tStart ;
@@ -112,9 +133,9 @@ void Calcular( const int matrixSize, const int nTimes, double *mNormal, double *
 		timeElapsed += ( double ) ( clock( ) - tStart ) / ( CLOCKS_PER_SEC ) ;
 		fprintf( stdout , "\t\t%d\r" , i ) ;
 	}
-	fprintf( stdout , "\t\tNORMAL MULT - Time :\t%.6fs\n" , timeElapsed ) ;
-	
-	*mNormal = timeElapsed ;
+	fprintf( stdout , "\t\tNORMAL MULT - Time :\t%.6fs\n" , timeElapsed / nTimes) ;
+
+	*mNormal = timeElapsed / nTimes;
 	timeElapsed = 0.0 ;
 	C.fillWithZeros( ) ;
 
@@ -122,11 +143,11 @@ void Calcular( const int matrixSize, const int nTimes, double *mNormal, double *
 	for ( int i = 0 ; i < nTimes ; ++i )
 	{
 		tStart = clock( );
-		A.matrixBlockMultiply2( B , C , matrixSize ) ;
+		A.matrixBlockMultiply2( B , C , matrixSize , bs ) ;
 		timeElapsed += ( double ) ( clock( ) - tStart ) / CLOCKS_PER_SEC ;
 		fprintf( stdout , "\t\t%d\r" , i ) ;
 		C.fillWithZeros( ) ;
 	}
-	fprintf( stdout , "\t\tBLOCK MULT - Time :\t%.6fs\n" , timeElapsed );
-	*mBloco = timeElapsed ;
+	fprintf( stdout , "\t\tBLOCK MULT - Time :\t%.6fs\n" , timeElapsed / nTimes );
+	*mBloco = timeElapsed / nTimes ;
 }
