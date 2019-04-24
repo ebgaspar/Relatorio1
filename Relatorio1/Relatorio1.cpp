@@ -7,13 +7,20 @@
 #include "Exercicio02.h"
 
 
-
-
-
 int main( )
 {
 	Exercicio01( ) ;
-	//Exercicio02( 5 , 512 ) ;
+	Exercicio02( 5 , 1024 ) ;
+
+//	Matrix<double> vandermonde ;
+//	vandermonde.Init( 16, 16 ) ;
+//    vandermonde.vandermonde( 0.2 );
+//	vandermonde.printMatrix( "vandermonde.txt" , "w" ) ;
+
+//    Matrix<float> toeplitz ;
+//    toeplitz.Init( 1024, 1024 ) ;
+//    toeplitz.toeplitz( -5 , 5 );
+//    toeplitz.printMatrix( "toeplitz.txt" , "w" ) ;
 
 	return 0;
 
@@ -181,3 +188,8 @@ int main( )
 
 }
 
+//    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+//    function();
+//    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+//
+//    auto duration = duration_cast<microseconds>( t2 - t1 ).count();
