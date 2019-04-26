@@ -151,7 +151,7 @@ void Matrix<T>::operator=( const Matrix<T> & B )
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
-		memcpy( this->_M [ i ] , B._M [ i ] , ( C * ( sizeof( int ) ) ) ) ;
+		memcpy( this->_M [ i ] , B._M [ i ] , ( C * ( sizeof( T ) ) ) ) ;
 	}
 
 }
@@ -337,7 +337,7 @@ bool Matrix<T>::fillWithZeros( void )
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
-		memset( this->_M [ i ] , 0 , ( C * ( sizeof( int ) ) ) ) ;
+		memset( this->_M [ i ] , 0 , ( C * ( sizeof( T ) ) ) ) ;
 	}
 
 	return true ;
