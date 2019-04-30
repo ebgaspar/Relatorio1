@@ -5,42 +5,54 @@ void Calcula( const int nTimes , Matrix<T> &A, Matrix<T> &B , Matrix<T> &C , con
 
 void Exercicio02( const int nTimes , const int dim )
 {
-    Matrix<float> A , B ;
-    A.Init( dim , dim ) ;
-    A.fillRandomMatrix( );
 
-    B.Init( dim , dim ) ;
-    B.fillRandomMatrix( );
+//    Matrix<float> A , B ;
+//    A.Init( dim , dim ) ;
+//    A.fillRandomMatrix( );
+//
+//    B.Init( dim , dim ) ;
+//    B.fillRandomMatrix( );
+//
+//    Matrix<float> C ;
+//    C.Init( dim , dim ) ;
+//
+//    Calcula( nTimes , A, B , C , "Exercicio_2_saida_mul_matrix-teste.csv") ;
+//
+//    Matrix<float> &triUpper = B ;
+//    triUpper.upperTriangular( 1 , 15 );
+////    triUpper.printMatrix( "triupper.txt" ) ;
+//    Calcula( nTimes , A, triUpper , C , "Exercicio_2triUpper_saida_mul_matrix-teste.csv") ;
+//
+//	Matrix<float> &triLower = B ;
+//    triLower.lowerTriangular( 1 , 15 );
+////    triLower.printMatrix( "trilower.txt" ) ;
+//    Calcula( nTimes , A, triLower , C , "Exercicio_2triLower_saida_mul_matrix-teste.csv") ;
+//
+//    Matrix<float> &toeplitz = B ;
+//    toeplitz.toeplitz( 1 , 15 );
+////    toeplitz.printMatrix( "toeplitz.txt" ) ;
+//    Calcula( nTimes , A, toeplitz , C , "Exercicio_2toeplitz_saida_mul_matrix-teste.csv") ;
+//
+//	Matrix<float> &triDiag = B ;
+//    triDiag.triDiagonal( 1 , 15 );
+////    triDiag.printMatrix( "tridiag.txt" ) ;
+//    Calcula( nTimes , A, triDiag , C , "Exercicio_2triDiag_saida_mul_matrix-teste.csv") ;
 
-    Matrix<float> C ;
-    C.Init( dim , dim ) ;
+	int nDim = 64;
 
-    Calcula( nTimes , A, B , C , "Exercicio_2_saida_mul_matrix-O2.csv") ;
+	Matrix< long double > vA , vC;
+	vA.Init ( nDim , nDim ) ;
+	vC.Init ( nDim , nDim ) ;
+	vA.fillRandomMatrix ( 1.2 , 15.0 ) ;
+	vC.fillWithZeros ( ) ;
 
-    Matrix<float> &triUpper = B ;
-    triUpper.upperTriangular( 1 , 15 );
-//    triUpper.printMatrix( "triupper.txt" ) ;
-    Calcula( nTimes , A, triUpper , C , "Exercicio_2triUpper_saida_mul_matrix-O2.csv") ;
-
-    Matrix<float> &triLower = B ;
-    triLower.lowerTriangular( 1 , 15 );
-//    triLower.printMatrix( "trilower.txt" ) ;
-    Calcula( nTimes , A, triLower , C , "Exercicio_2triLower_saida_mul_matrix-O2.csv") ;
-
-    Matrix<float> &toeplitz = B ;
-    toeplitz.toeplitz( 1 , 15 );
-//    toeplitz.printMatrix( "toeplitz.txt" ) ;
-    Calcula( nTimes , A, toeplitz , C , "Exercicio_2toeplitz_saida_mul_matrix-O2.csv") ;
-
-    Matrix<float> &triDiag = B ;
-    triDiag.triDiagonal( 1 , 15 );
-//    triDiag.printMatrix( "tridiag.txt" ) ;
-    Calcula( nTimes , A, triDiag , C , "Exercicio_2triDiag_saida_mul_matrix-O2.csv") ;
-
-//    Matrix<float> &vandermonde = B ;
-//    vandermonde.vandermonde( ) ;
-//    Calcula( nTimes , A, vandermonde , C , "Exercicio_2vandermonde_saida_mul_matrix.csv") ;
-//    vandermonde.printMatrix( "vandermont.txt") ;
+    Matrix<long double> vandermonde ;
+	vandermonde.Init( nDim , nDim ) ;
+    vandermonde.vandermonde( .2 ) ;
+    Calcula( nTimes , vA, vandermonde , vC , "Exercicio_2vandermonde_saida_mul_matrix-O2-Windows.csv") ;
+    vandermonde.printMatrix( "vandermont.txt", "w" ) ;
+	vC.printMatrix ( "vanderResult.txt" , "w" );
+	vA.printMatrix ( "AResult.txt" , "w" );
 }
 
 template <typename T>
@@ -76,16 +88,15 @@ void Calcula( const int nTimes , Matrix<T> &A, Matrix<T> &B , Matrix<T> &C , con
 	timeElapsed = 0.0 ;
 	for ( int i = 4 ; i <= dim ; i *= 2 )
 	{
-		C.fillWithZeros( ) ;
 		timeElapsed = 0 ;
 		fprintf( stdout , "\tInicio - Multiplicacao com Bloco : \033[1;5;31;40m%dx \033[m\n" , nTimes ) ;
 		for ( int j = 0 ; j < nTimes ; ++j )
 		{
+			C.fillWithZeros ( );
 			tStart = clock( );
 			A.matrixBlockMultiply( B , C , dim , i ) ;
 			timeElapsed += ( double ) ( clock( ) - tStart ) / CLOCKS_PER_SEC ;
 			fprintf( stdout , "\t\t%d\r" , i ) ;
-			C.fillWithZeros( ) ;
 		}
 		fprintf( stdout , "\t\tBLOCK MULT - Time :\t%.6fs\n" , timeElapsed / nTimes );
 		mBloco = timeElapsed / nTimes ;

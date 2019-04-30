@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iomanip>
 #include <random>
-
+#include <functional>
 
 template < typename T >
 class Matrix
@@ -24,8 +24,42 @@ private:
         auto seed = std::chrono::high_resolution_clock::now( ).time_since_epoch( ).count( ) ;
         std::mt19937 mt_rand(seed);
 
-        return ( min + static_cast <T> ( mt_rand( ) ) /( static_cast <T> ( RAND_MAX / ( max - min ) ) ) ) ;
+		if ( strcmp ( typeid( min ).name ( ) , "int" ) )
+		{
+			auto myRand = std::bind ( std::uniform_int_distribution< int > ( min , max ) , std::mt19937 ( seed ) ) ;
+			return myRand ( min , max );
+		}
+		else
+		{
+			if ( strcmp ( typeid( min ).name ( ) , "float" ) )
+			{
+				auto myRand = std::bind ( std::uniform_real_distribution< float > ( min , max ) , std::mt19937 ( seed ) );
+				return myRand ( min , max );
+			}
+			else
+			{
+				if ( strcmp ( typeid( min ).name ( ) , "double" ) )
+				{
+
+					auto myRand = std::bind ( std::uniform_real_distribution< double > ( min , max ) , std::mt19937 ( seed ) );
+					return myRand ( min , max );
+				}
+				else
+				{
+					if ( strcmp ( typeid( min ).name ( ) , "long double" ) )
+					{
+
+						auto myRand = std::bind ( std::uniform_real_distribution< double > ( min , max ) , std::mt19937 ( seed ) );
+						return myRand ( min , max );
+					}
+
+				}
+			}
+		}
+
+        return ( min + static_cast < T > ( mt_rand ( ) ) / ( static_cast < T > ( RAND_MAX / ( max - min ) ) ) ) ;
 	}
+
     void mult( T **B , T **C, const int blockSize, const int bi, const int bj, const int bk ) ;
 
 public:
@@ -194,8 +228,6 @@ void Matrix<T>::upperTriangular( const T min , const T max )
 	int L = this->_l ;
 	T **M = this->_M ;
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
 	for ( int i = 0 ; i < L ; ++i )
 	{
 		for ( int j = 0 ; j < C ; j++ )
@@ -212,7 +244,6 @@ void Matrix<T>::lowerTriangular( const T min , const T max )
 	int L = this->_l ;
 	T **M = this->_M ;
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
@@ -230,7 +261,6 @@ void Matrix<T>::triDiagonal( const T min , const T max )
 	int L = this->_l ;
 	T **M = this->_M ;
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
@@ -248,7 +278,6 @@ void Matrix<T>::toeplitz( const T min , const T max )
 	int L = this->_l ;
 	T **M = this->_M ;
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
 	T a00 = rand_lim( min , max ) ;
 
 
@@ -283,9 +312,11 @@ void Matrix<T>::vandermonde( const T inc )
 	{
 		for ( int j = 0 ; j < C ; ++j )
 		{
-			M [ i ][ j ] = ( T ) pow( array [ i ] , ( L - j - 1 ) ) ;
+			M [ i ][ j ] = ( T ) pow( array [ i ] , ( j ) ) ;
 		}
 	}
+
+	delete[ ] array ;
 }
 
 template < typename T >
@@ -312,14 +343,12 @@ bool Matrix<T>::fillRandomMatrix( const T min , const T max )
 		return false ;
 	}
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
 	for ( int i = 0 ; i < this->_l ; ++i )
 	{
 		for ( int j = 0 ; j < this->_c ; ++j )
 		{
 			//this->_M [ i ][ j ] = ( rand( ) % 15 ) + 1 ;
-			this->_M [ i ][ j ] = rand_lim( ( T ) 1 , ( T ) 15 ) ;
+			this->_M [ i ][ j ] = rand_lim( ( T ) min , ( T ) max ) ;
 		}
 	}
 

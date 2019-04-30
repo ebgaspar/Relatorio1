@@ -10,17 +10,7 @@
 int main( )
 {
 	Exercicio01( ) ;
-	Exercicio02( 5 , 1024 ) ;
-
-//	Matrix<double> vandermonde ;
-//	vandermonde.Init( 16, 16 ) ;
-//    vandermonde.vandermonde( 0.2 );
-//	vandermonde.printMatrix( "vandermonde.txt" , "w" ) ;
-
-//    Matrix<float> toeplitz ;
-//    toeplitz.Init( 1024, 1024 ) ;
-//    toeplitz.toeplitz( -5 , 5 );
-//    toeplitz.printMatrix( "toeplitz.txt" , "w" ) ;
+	//Exercicio02( 5 , 1024 ) ;
 
 	return 0;
 
