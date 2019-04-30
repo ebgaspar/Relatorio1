@@ -1,38 +1,38 @@
 LETRA A
 #############	INTEGER	#############
-Bhaskara:	-2147483648	-2147483648
-Fatorado:	-2147483648	0
+Bhaskara:	73170	26830
+Fatorado:	0	0
 
 #############	FLOAT	#############
 Bhaskara:	100000.000000	0.000000
-Fatorado:	-0.000010	-100000.000000
+Fatorado:	-inf	-nan(ind)
 
 #############	DOUBLE	#############
 Bhaskara:	99999.999990	0.000010
-Fatorado:	-0.000010	-99999.999990
+Fatorado:	99999.966146	0.000010
 
 LETRA B
 #############	INTEGER	#############
 Bhaskara:	3	1
-Fatorado:	-1	-3
+Fatorado:	3	1
 
 #############	FLOAT	#############
 Bhaskara:	2.000977	1.999023
-Fatorado:	-1.999023	-2.000977
+Fatorado:	2.000977	1.999023
 
 #############	DOUBLE	#############
 Bhaskara:	2.001000	1.999000
-Fatorado:	-1.999000	-2.001000
+Fatorado:	2.001000	1.999000
 
 LETRA C
 #############	INTEGER	#############
 Bhaskara:	0	-1
-Fatorado:	1	0
+Fatorado:	0	0
 
 #############	FLOAT	#############
 Bhaskara:	0.500000	-1.333333
-Fatorado:	1.333333	-0.500000
+Fatorado:	0.500000	-1.333333
 
 #############	DOUBLE	#############
 Bhaskara:	0.500000	-1.333333
-Fatorado:	1.333333	-0.500000
+Fatorado:	0.500000	-1.333333

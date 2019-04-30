@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/eduardo/Relatorio1/Relatorio1/Exercicio01.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio02.cpp
+Exercicio02.h
+/home/eduardo/Relatorio1/Relatorio1/Exercicio02.h
 
 /home/eduardo/Relatorio1/Relatorio1/Exercicio02.h
 string.h
@@ -39,14 +41,4 @@ iomanip
 -
 random
 -
-
-/home/eduardo/Relatorio1/Relatorio1/Relatorio1.cpp
-stdio.h
--
-stdlib.h
--
-Exercicio01.h
-/home/eduardo/Relatorio1/Relatorio1/Exercicio01.h
-Exercicio02.h
-/home/eduardo/Relatorio1/Relatorio1/Exercicio02.h
 

@@ -1,23 +1,135 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <typeinfo>
+
+//template < typename T >
+//T _delta ( const T a , const T b , const T c )
+//{
+//	return ( pow ( b , 2 ) - ( 4 * a * c ) );
+//}
+//
+template < typename T >
+inline bool isZero ( T x )
+{
+	const T epsilon = 0.00000000001;
+	return std::abs ( x - 0 ) <= epsilon * std::abs ( x );
+}
 
 template < typename T >
 void Bhaskara ( const T a , const T b , const T c , T *x1 , T *x2 )
 {
-	T delta = pow ( b , 2 ) - ( 4 * a * c ) ;
+	T bQuad = pow ( b , 2.0 ) ;
+	T delta = bQuad - ( 4 * a * c ) ;
+	T raizQ = sqrt ( delta ) ;
 
-	*x1 = ( ( -b ) + sqrt ( delta ) ) / ( 2 * a ) ;
-	*x2 = ( ( -b ) - sqrt ( delta ) ) / ( 2 * a ) ;
+	*x1 = ( ( -b ) + raizQ ) / ( 2 * a ) ;
+	*x2 = ( ( -b ) - raizQ ) / ( 2 * a ) ;
 }
 
 template < typename T >
 void Fatorado ( const T a , const T b , const T c , T * x1 , T * x2 )
 {
-	T delta = pow ( b , 2 ) - 4 * a * c ;
+	T bQuad = pow ( b , 2.0 );
+	T delta =  bQuad - ( 4 * a * c ) ;
+	T raizQ = sqrt ( delta ) ;
 
-	*x1 = ( -2 * c ) / ( ( -b ) + sqrt ( delta ) ) ;
-	*x2 = c / ( a * *x1 ) ;
+	*x1 = ( -2 * c ) / ( ( b ) + raizQ ) ;
+
+	if ( isZero( *x1 ) )
+	{
+		*x2 = NAN;
+		return;
+	}
+		*x2 = c / ( a * *x1 );
+	
 }
+
+//bool isZero ( float x )
+//{
+//	const float epsilon = 0.0000000001f;
+//	return std::abs ( x - 0 ) <= epsilon * std::abs ( x );
+//}
+//
+//bool isZero ( double x )
+//{
+//	const double epsilon = 0.00000000000000001;
+//	return std::abs ( x - 0 ) <= epsilon * std::abs ( x );
+//}
+//
+//void Bhaskara ( const int a , const int b , const int c , int *x1 , int *x2 )
+//{
+//	int delta = pow ( b , 2 ) - ( 4 * a * c ) ;
+//	
+//	*x1 = ( ( -b ) + sqrt ( delta ) ) / ( 2 * a ) ;
+//	*x2 = ( ( -b ) - sqrt ( delta ) ) / ( 2 * a ) ;
+//}
+//void Fatorado ( const int a , const int b , const int c , int * x1 , int * x2 )
+//{
+//	int delta = pow ( b , 2 ) - ( 4 * a * c ) ;
+//	int res = ( -2 * c ) / ( ( b ) +sqrt ( delta ) );
+//	*x1 = res;
+//
+//	if ( res == 0 )
+//	{
+//		*x2 = NAN;
+//	}
+//	else
+//	{
+//		*x2 = c / ( a * res );
+//	}
+//	
+//}
+//
+//void Bhaskara ( const float a , const float b , const float c , float *x1 , float *x2 )
+//{
+//	float delta = pow ( b , 2 ) - ( 4 * a * c );
+//
+//	*x1 = ( ( -b ) + sqrt ( delta ) ) / ( 2.0f * a );
+//	*x2 = ( ( -b ) - sqrt ( delta ) ) / ( 2.0f * a );
+//}
+//void Fatorado ( const float a , const float b , const float c , float *x1 , float *x2 )
+//{
+//	float delta = pow ( b , 2 ) - ( 4.0f * a * c );
+//	float res = ( -2.0f * c ) / ( ( b ) +sqrt ( delta ) );
+//	*x1 = res;
+//
+//	if ( isZero( res ) )
+//	{
+//		*x2 = NAN;
+//	}
+//	else
+//	{
+//		*x2 = c / ( a * res );
+//	}
+//
+//}
+//
+//void Bhaskara ( const double a , const double b , const double c , double *x1 , double *x2 )
+//{
+//	double delta = pow ( b , 2 ) - ( 4 * a * c );
+//
+//	*x1 = ( ( -b ) + sqrt ( delta ) ) / ( 2 * a );
+//	*x2 = ( ( -b ) - sqrt ( delta ) ) / ( 2 * a );
+//}
+//
+//
+//void Fatorado ( const double a , const double b , const double c , double *x1 , double *x2 )
+//{
+//	double delta = pow ( b , 2 ) - ( 4 * a * c );
+//	double res = ( -2 * c ) / ( ( b ) +sqrt ( delta ) );
+//	*x1 = res;
+//
+//	if ( isZero( res ) )
+//	{
+//		*x2 = NAN;
+//	}
+//	else
+//	{
+//		*x2 = c / ( a * res );
+//	}
+//
+//}
 
 void Exercicio01 ( void )
 {
@@ -39,6 +151,7 @@ void Exercicio01 ( void )
 	//iFatorado( iA , iB , iC , &iX1 , &iX2 ) ;
 	Fatorado ( iA , iB , iC , &iX1 , &iX2 ) ;
 	fprintf ( file , "Fatorado:\t%d\t%d\n" , iX1 , iX2 ) ;
+	fflush ( file );
 
 	float fA , fB , fC , fX1 , fX2 ;
 
@@ -55,6 +168,7 @@ void Exercicio01 ( void )
 	//fFatorado( fA , fB , fC , &fX1 , &fX2 ) ;
 	Fatorado ( fA , fB , fC , &fX1 , &fX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , fX1 , fX2 ) ;
+	fflush ( file );
 
 	double dA , dB , dC , dX1 , dX2 ;
 
@@ -71,7 +185,7 @@ void Exercicio01 ( void )
 	//dFatorado( dA , dB , dC , &dX1 , &dX2 ) ;
 	Fatorado ( dA , dB , dC , &dX1 , &dX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , dX1 , dX2 ) ;
-
+	fflush ( file );
 	// #################################
 
 	iA = 1 ;
@@ -88,6 +202,7 @@ void Exercicio01 ( void )
 	//iFatorado( iA , iB , iC , &iX1 , &iX2 ) ;
 	Fatorado ( iA , iB , iC , &iX1 , &iX2 ) ;
 	fprintf ( file , "Fatorado:\t%d\t%d\n" , iX1 , iX2 ) ;
+	fflush ( file );
 
 	fA = 1.0f ;
 	fB = -4.0f ;
@@ -102,6 +217,7 @@ void Exercicio01 ( void )
 	//fFatorado( fA , fB , fC , &fX1 , &fX2 ) ;
 	Fatorado ( fA , fB , fC , &fX1 , &fX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , fX1 , fX2 ) ;
+	fflush ( file );
 
 	dA = 1.0 ;
 	dB = -4.0 ;
@@ -117,7 +233,7 @@ void Exercicio01 ( void )
 	Fatorado ( dA , dB , dC , &dX1 , &dX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , dX1 , dX2 ) ;
 
-
+	fflush ( file );
 	// #################################
 
 	iA = 6 ;
@@ -134,6 +250,7 @@ void Exercicio01 ( void )
 	//iFatorado( iA , iB , iC , &iX1 , &iX2 ) ;
 	Fatorado ( iA , iB , iC , &iX1 , &iX2 ) ;
 	fprintf ( file , "Fatorado:\t%d\t%d\n" , iX1 , iX2 ) ;
+	fflush ( file );
 
 	fA = 6.0f ;
 	fB = 5.0f ;
@@ -148,6 +265,7 @@ void Exercicio01 ( void )
 	//fFatorado( fA , fB , fC , &fX1 , &fX2 ) ;
 	Fatorado ( fA , fB , fC , &fX1 , &fX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , fX1 , fX2 ) ;
+	fflush ( file );
 
 	dA = 6.0 ;
 	dB = 5.0 ;
@@ -163,6 +281,6 @@ void Exercicio01 ( void )
 	Fatorado ( dA , dB , dC , &dX1 , &dX2 ) ;
 	fprintf ( file , "Fatorado:\t%f\t%f\n" , dX1 , dX2 ) ;
 
-
+	fflush ( file );
 	fclose ( file ) ;
 }

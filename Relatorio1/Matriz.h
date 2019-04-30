@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iomanip>
 #include <random>
-
+#include <functional>
 
 template < typename T >
 class Matrix
@@ -24,8 +24,43 @@ private:
         auto seed = std::chrono::high_resolution_clock::now( ).time_since_epoch( ).count( ) ;
         std::mt19937 mt_rand(seed);
 
-        return ( min + static_cast <T> ( mt_rand( ) ) /( static_cast <T> ( RAND_MAX / ( max - min ) ) ) ) ;
+		if ( strcmp ( typeid( min ).name ( ) , "int" ) )
+		{
+			auto myRand = std::bind ( std::uniform_int_distribution< int > ( min , max ) , std::mt19937 ( seed ) ) ;
+			return myRand ( min , max );
+		}
+		else
+		{
+			if ( strcmp ( typeid( min ).name ( ) , "float" ) )
+			{
+				auto myRand = std::bind ( std::uniform_real_distribution< float > ( min , max ) , std::mt19937 ( seed ) );
+				return myRand ( min , max );
+			}
+			else
+			{
+				if ( strcmp ( typeid( min ).name ( ) , "double" ) )
+				{
+
+					auto myRand = std::bind ( std::uniform_real_distribution< double > ( min , max ) , std::mt19937 ( seed ) );
+					return myRand ( min , max );
+				}
+				else
+				{
+					if ( strcmp ( typeid( min ).name ( ) , "long double" ) )
+					{
+
+						auto myRand = std::bind ( std::uniform_real_distribution< double > ( min , max ) , std::mt19937 ( seed ) );
+						return myRand ( min , max );
+					}
+
+				}
+			}
+		}
+
+        return ( min + static_cast < T > ( mt_rand ( ) ) / ( static_cast < T > ( RAND_MAX / ( max - min ) ) ) ) ;
 	}
+
+    void mult( T **B , T **C, const int blockSize, const int bi, const int bj, const int bk ) ;
 
 public:
 	Matrix( ) { this->_M = nullptr ; this->_l = this->_c = 0 ; }
@@ -44,19 +79,19 @@ public:
 	void operator=( const Matrix<T> & ) ;
 	//Matrix operator*( const Matrix & ) ;
 
-	void upperTriangular( void ) ;
-	void lowerTriangular( void ) ;
-	void triDiagonal( void ) ;
-	void toeplitz( void ) ;
-	void vandermonde( void ) ;
+	void upperTriangular( const T min = 1 , const T max = 15 );
+	void lowerTriangular( const T min = 1 , const T max = 15 );
+	void triDiagonal( const T min = 1 , const T max = 15 );
+	void toeplitz( const T min = 1 , const T max = 15 );
+	void vandermonde( const T inc );
 	void identity( void ) ;
 
-	bool fillRandomMatrix( void ) ;
+	bool fillRandomMatrix( const T min = 1 , const T max = 15 ) ;
 	bool fillWithZeros( void ) ;
 
 	bool multiply( const Matrix<T> & , Matrix<T> & ) ;
-	void matrixBlockMultiply( Matrix<T> & , Matrix<T> & , const int, const int = 2 ) ;
-	void matrixBlockMultiply2( Matrix<T> & , Matrix<T> & , const int, const int = 2  ) ;
+	void matrixBlockMultiply( Matrix<T> & , Matrix<T> & , const int, const int  ) ;
+	void matrixBlockMultiply2( Matrix<T> & , Matrix<T> & , const int, const int  ) ;
 
 	void Gauss( T * solution ) ;
 	void GaussJordan( T * solution ) ;
@@ -150,7 +185,7 @@ void Matrix<T>::operator=( const Matrix<T> & B )
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
-		memcpy( this->_M [ i ] , B._M [ i ] , ( C * ( sizeof( int ) ) ) ) ;
+		memcpy( this->_M [ i ] , B._M [ i ] , ( C * ( sizeof( T ) ) ) ) ;
 	}
 
 }
@@ -187,68 +222,63 @@ void Matrix<T>::operator=( const Matrix<T> & B )
 //}
 
 template <typename T >
-void Matrix<T>::upperTriangular( void )
-{
-	int C = this->_c ;
-	int L = this->_l ;
-	int **M = this->_M ;
-
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
-	for ( int i = 0 ; i < L ; ++i )
-	{
-		for ( int j = 0 ; j < C ; j++ )
-		{
-			( i == j || i < j ) ? M [ i ][ j ] = rand_lim( 15 ) : M [ i ][ j ] = 0 ;
-		}
-	}
-}
-
-template <typename T >
-void Matrix<T>::lowerTriangular( void )
-{
-	int C = this->_c ;
-	int L = this->_l ;
-	int **M = this->_M ;
-
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
-	for ( int i = 0 ; i < L ; ++i )
-	{
-		for ( int j = 0 ; j < C ; j++ )
-		{
-			( i == j || i > j ) ? M [ i ][ j ] = rand_lim( 15 ) : M [ i ][ j ] = 0 ;
-		}
-	}
-}
-
-template <typename T >
-void Matrix<T>::triDiagonal( void )
-{
-	int C = this->_c ;
-	int L = this->_l ;
-	int **M = this->_M ;
-
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
-	for ( int i = 0 ; i < L ; ++i )
-	{
-		for ( int j = 0 ; j < C ; j++ )
-		{
-			( i == j || i == j + 1 || i + 1 == j ) ? M [ i ][ j ] = rand_lim( 15 ) : M [ i ][ j ] = 0 ;
-		}
-	}
-}
-
-template <typename T >
-void Matrix<T>::toeplitz( void )
+void Matrix<T>::upperTriangular( const T min , const T max )
 {
 	int C = this->_c ;
 	int L = this->_l ;
 	T **M = this->_M ;
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-	int a00 = rand_lim( 0 , 15 ) ;
+	for ( int i = 0 ; i < L ; ++i )
+	{
+		for ( int j = 0 ; j < C ; j++ )
+		{
+			( i == j || i < j ) ? M [ i ][ j ] = rand_lim( min, max ) : M [ i ][ j ] = 0 ;
+		}
+	}
+}
+
+template <typename T >
+void Matrix<T>::lowerTriangular( const T min , const T max )
+{
+	int C = this->_c ;
+	int L = this->_l ;
+	T **M = this->_M ;
+
+
+	for ( int i = 0 ; i < L ; ++i )
+	{
+		for ( int j = 0 ; j < C ; j++ )
+		{
+			( i == j || i > j ) ? M [ i ][ j ] = rand_lim( min, max ) : M [ i ][ j ] = 0 ;
+		}
+	}
+}
+
+template <typename T >
+void Matrix<T>::triDiagonal( const T min , const T max )
+{
+	int C = this->_c ;
+	int L = this->_l ;
+	T **M = this->_M ;
+
+
+	for ( int i = 0 ; i < L ; ++i )
+	{
+		for ( int j = 0 ; j < C ; j++ )
+		{
+			( i == j || i == j + 1 || i + 1 == j ) ? M [ i ][ j ] = rand_lim( min, max ) : M [ i ][ j ] = 0 ;
+		}
+	}
+}
+
+template <typename T >
+void Matrix<T>::toeplitz( const T min , const T max )
+{
+//	int C = this->_c ;
+	int L = this->_l ;
+	T **M = this->_M ;
+
+	T a00 = rand_lim( min , max ) ;
 
 
 	for ( int k = 0 ; k < L ; ++k )
@@ -259,7 +289,7 @@ void Matrix<T>::toeplitz( void )
             {
                 if ( abs( i - j ) == k )
                 {
-                    M[ i ][ j ] = ( T ) k + 1 ;
+                    M[ i ][ j ] = ( T ) k + a00 ;
                 }
             }
         }
@@ -267,23 +297,26 @@ void Matrix<T>::toeplitz( void )
 }
 
 template <typename T >
-void Matrix<T>::vandermonde( void )
+void Matrix<T>::vandermonde( const T inc )
 {
 	int C = this->_c ;
 	int L = this->_l ;
-	int **M = this->_M ;
+	T **M = this->_M ;
 
-	int *array = new int [ L ] ;
-	for ( int i = 0 ; i < L ; ++i )
-		array [ i ] = i + 1 ;
+	T *array = new T [ L ] ;
+	T x = 1 ;
+	for ( int i = 0 ; i < L ; ++i, x += inc )
+		array [ i ] = x ;
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
 		for ( int j = 0 ; j < C ; ++j )
 		{
-			M [ i ][ j ] = ( int ) pow( array [ i ] , ( L - j - 1 ) );
+			M [ i ][ j ] = ( T ) pow( array [ i ] , ( j ) ) ;
 		}
 	}
+
+	delete[ ] array ;
 }
 
 template < typename T >
@@ -303,21 +336,19 @@ void Matrix<T>::identity( void )
 }
 
 template <typename T >
-bool Matrix<T>::fillRandomMatrix( void )
+bool Matrix<T>::fillRandomMatrix( const T min , const T max )
 {
 	if ( this->isEmpty( ) )
 	{
 		return false ;
 	}
 
-	srand( static_cast< unsigned int >( time( 0 ) ) ) ;
-
 	for ( int i = 0 ; i < this->_l ; ++i )
 	{
 		for ( int j = 0 ; j < this->_c ; ++j )
 		{
 			//this->_M [ i ][ j ] = ( rand( ) % 15 ) + 1 ;
-			this->_M [ i ][ j ] = rand_lim( ( T ) 1 , ( T ) 15 ) ;
+			this->_M [ i ][ j ] = rand_lim( ( T ) min , ( T ) max ) ;
 		}
 	}
 
@@ -335,7 +366,7 @@ bool Matrix<T>::fillWithZeros( void )
 
 	for ( int i = 0 ; i < L ; ++i )
 	{
-		memset( this->_M [ i ] , 0 , ( C * ( sizeof( int ) ) ) ) ;
+		memset( this->_M [ i ] , 0 , ( C * ( sizeof( T ) ) ) ) ;
 	}
 
 	return true ;
@@ -370,9 +401,29 @@ bool Matrix<T>::multiply( const Matrix<T> & B , Matrix<T> & C )
 }
 
 template <typename T >
+void Matrix<T>::mult( T **B , T **C, const int blockSize, const int bi, const int bj, const int bk )
+{
+    T **A = this->_M ;
+
+    for ( int i = 0 ; i < blockSize ; i++ )
+    {
+        for ( int j = 0 ; j < blockSize ; j++ )
+        {
+            for ( int k = 0 ; k < blockSize ; k++ )
+            {
+                C [ bi + i ][ bj + j ] += A [ bi + i ][ bk + k ] * B [ bk + k ][ bj + j ];
+            }
+
+        }
+    }
+}
+
+template <typename T >
 void Matrix<T>::matrixBlockMultiply( Matrix<T> & _B , Matrix<T> & _C , const int n , const int blockSize )
 {
-	T **A = this->_M ;
+//
+
+
 	T **B = _B.data( ) ;
 	T **C = _C.data( ) ;
 
@@ -382,7 +433,7 @@ void Matrix<T>::matrixBlockMultiply( Matrix<T> & _B , Matrix<T> & _C , const int
 		{
 			for ( int bk = 0 ; bk < n ; bk += blockSize )
 			{
-				for ( int i = 0 ; i < blockSize ; i++ )
+/*				for ( int i = 0 ; i < blockSize ; i++ )
 				{
 					for ( int j = 0 ; j < blockSize ; j++ )
 					{
@@ -392,7 +443,9 @@ void Matrix<T>::matrixBlockMultiply( Matrix<T> & _B , Matrix<T> & _C , const int
 						}
 
 					}
-				}
+				}*/
+
+                mult( B, C, blockSize, bi, bj, bk ) ;
 			}
 		}
 	}

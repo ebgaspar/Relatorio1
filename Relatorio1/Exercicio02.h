@@ -10,3 +10,4 @@
 //#define filename "d:/Exercicio02.txt"
 
 void Exercicio02( const int nTimes , const int dim ) ;
+void Exercicio02a( const int nTimes , const int dim ) ;

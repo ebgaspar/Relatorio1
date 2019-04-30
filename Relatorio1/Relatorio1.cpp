@@ -7,13 +7,10 @@
 #include "Exercicio02.h"
 
 
-
-
-
 int main( )
 {
 	Exercicio01( ) ;
-	//Exercicio02( 5 , 512 ) ;
+	//Exercicio02( 5 , 1024 ) ;
 
 	return 0;
 
@@ -181,3 +178,8 @@ int main( )
 
 }
 
+//    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+//    function();
+//    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+//
+//    auto duration = duration_cast<microseconds>( t2 - t1 ).count();
