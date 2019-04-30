@@ -12,7 +12,7 @@
 template < typename T >
 inline bool isZero ( T x )
 {
-	const T epsilon = 0.00000000001;
+	const T epsilon = 0.00000000000001;
 	return std::abs ( x - 0 ) <= epsilon * std::abs ( x );
 }
 
@@ -38,7 +38,7 @@ void Fatorado ( const T a , const T b , const T c , T * x1 , T * x2 )
 
 	if ( isZero( *x1 ) )
 	{
-		*x2 = NAN;
+		*x2 = ( T ) 0;
 		return;
 	}
 		*x2 = c / ( a * *x1 );

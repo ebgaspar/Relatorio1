@@ -6,44 +6,44 @@ void Calcula( const int nTimes , Matrix<T> &A, Matrix<T> &B , Matrix<T> &C , con
 void Exercicio02( const int nTimes , const int dim )
 {
 
-//    Matrix<float> A , B ;
-//    A.Init( dim , dim ) ;
-//    A.fillRandomMatrix( );
-//
-//    B.Init( dim , dim ) ;
-//    B.fillRandomMatrix( );
-//
-//    Matrix<float> C ;
-//    C.Init( dim , dim ) ;
-//
-//    Calcula( nTimes , A, B , C , "Exercicio_2_saida_mul_matrix-teste.csv") ;
-//
-//    Matrix<float> &triUpper = B ;
-//    triUpper.upperTriangular( 1 , 15 );
-////    triUpper.printMatrix( "triupper.txt" ) ;
-//    Calcula( nTimes , A, triUpper , C , "Exercicio_2triUpper_saida_mul_matrix-teste.csv") ;
-//
-//	Matrix<float> &triLower = B ;
-//    triLower.lowerTriangular( 1 , 15 );
-////    triLower.printMatrix( "trilower.txt" ) ;
-//    Calcula( nTimes , A, triLower , C , "Exercicio_2triLower_saida_mul_matrix-teste.csv") ;
-//
-//    Matrix<float> &toeplitz = B ;
-//    toeplitz.toeplitz( 1 , 15 );
-////    toeplitz.printMatrix( "toeplitz.txt" ) ;
-//    Calcula( nTimes , A, toeplitz , C , "Exercicio_2toeplitz_saida_mul_matrix-teste.csv") ;
-//
-//	Matrix<float> &triDiag = B ;
-//    triDiag.triDiagonal( 1 , 15 );
-////    triDiag.printMatrix( "tridiag.txt" ) ;
-//    Calcula( nTimes , A, triDiag , C , "Exercicio_2triDiag_saida_mul_matrix-teste.csv") ;
+    Matrix<float> A , B ;
+    A.Init( dim , dim ) ;
+    A.fillRandomMatrix( );
+
+    B.Init( dim , dim ) ;
+    B.fillRandomMatrix( );
+
+    Matrix<float> C ;
+    C.Init( dim , dim ) ;
+
+    Calcula( nTimes , A, B , C , "Exercicio_2_saida_mul_matrix-teste.csv") ;
+
+    Matrix<float> &triUpper = B ;
+    triUpper.upperTriangular( 1 , 15 );
+//    triUpper.printMatrix( "triupper.txt" ) ;
+    Calcula( nTimes , A, triUpper , C , "Exercicio_2triUpper_saida_mul_matrix-teste.csv") ;
+
+	Matrix<float> &triLower = B ;
+    triLower.lowerTriangular( 1 , 15 );
+//    triLower.printMatrix( "trilower.txt" ) ;
+    Calcula( nTimes , A, triLower , C , "Exercicio_2triLower_saida_mul_matrix-teste.csv") ;
+
+    Matrix<float> &toeplitz = B ;
+    toeplitz.toeplitz( 1 , 15 );
+//    toeplitz.printMatrix( "toeplitz.txt" ) ;
+    Calcula( nTimes , A, toeplitz , C , "Exercicio_2toeplitz_saida_mul_matrix-teste.csv") ;
+
+	Matrix<float> &triDiag = B ;
+    triDiag.triDiagonal( 1 , 15 );
+//    triDiag.printMatrix( "tridiag.txt" ) ;
+    Calcula( nTimes , A, triDiag , C , "Exercicio_2triDiag_saida_mul_matrix-teste.csv") ;
 
 	int nDim = 64;
 
 	Matrix< long double > vA , vC;
 	vA.Init ( nDim , nDim ) ;
 	vC.Init ( nDim , nDim ) ;
-	vA.fillRandomMatrix ( 1.2 , 15.0 ) ;
+	vA.fillRandomMatrix ( 1.2 , 5.0 ) ;
 	vC.fillWithZeros ( ) ;
 
     Matrix<long double> vandermonde ;

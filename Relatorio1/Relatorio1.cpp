@@ -10,7 +10,7 @@
 int main( )
 {
 	Exercicio01( ) ;
-	//Exercicio02( 5 , 1024 ) ;
+	Exercicio02( 5 , 1024 ) ;
 
 	return 0;
 
